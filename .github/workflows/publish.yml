@@ -22,8 +22,8 @@ jobs:
         run: echo "time=$(date +'%Y%m%d.%H%M%S')" >> $GITHUB_OUTPUT
         id: timestamp
       - name: Generate Docker image
-        run: mvn spring-boot:build-image -DskipTests -Dspring-boot.build-image.imageName=${{ secrets.DOCKERHUB_USERNAME }}/items:${{ steps.project.outputs.semver }}-${{ steps.project.outputs.time }}
+        run: mvn spring-boot:build-image -DskipTests -Dspring-boot.build-image.imageName=${{ secrets.DOCKERHUB_USERNAME }}/items:${{ steps.project.outputs.semver }}-${{ steps.timestamp.outputs.time }}
       - name: Login to DockerHub
         run: docker login -u "${{ secrets.DOCKERHUB_USERNAME }}" -p "${{ secrets.DOCKERHUB_TOKEN }}" 
       - name: Push image to DockerHub
-        run: docker push ${{ secrets.DOCKERHUB_USERNAME }}/items:${{ steps.project.outputs.semver }}-${{ steps.project.outputs.time }}
+        run: docker push ${{ secrets.DOCKERHUB_USERNAME }}/items:${{ steps.project.outputs.semver }}-${{ steps.timestamp.outputs.time }}
